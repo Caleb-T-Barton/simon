@@ -1,8 +1,9 @@
+// Load sound files along with the hue of the button colors
 const btnDescriptions = [
     {file: 'sound1.mp3', hue: 120},
     {file: 'sound2.mp3', hue: 0},
-    {file: 'sound3.mp3', hue: 60},
-    {file: 'sound4.mp3', hue: 240},
+    {file: 'sound3.mp3', hue: 51},
+    {file: 'sound4.mp3', hue: 220},
 ];
 
 class Button {
@@ -49,6 +50,7 @@ class Game {
 
         document.querySelectorAll('.game-button').forEach((el, i) => {
             if (i < btnDescriptions.length) {
+                console.log(el.id);
                 this.buttons.set(el.id, new Button(btnDescriptions[i], el));
             }
         });
@@ -113,6 +115,7 @@ class Game {
     }
 
     // Review this code better
+    // ANSWER: I was just confused by what a "button dance" was but now I understand this is the little animation that plays before each game
     async buttonDance(laps = 1) {
         for (let step = 0; step < laps; step++) {
             for (const btn of this.buttons.values()) {
@@ -128,6 +131,11 @@ class Game {
     }
 
     // Review this code better
+    // ANSWER: first this function gets the current player name and stores it in userName
+    // Next, the function declares an empty array scores
+    // The array from the local storage database is retrieved
+    // If there is data exists in local storage, then the scores array declared earlier is set to those values from local storage
+    // scores is then updated with the new score to be added to the existing local storage array
     saveScore(score) {
         const userName = this.getPlayerName();
         let scores = [];
@@ -148,6 +156,7 @@ class Game {
         for (const [i, prevScore] of scores.entries()) {
             if (score > prevScore.score) {
                 // Review the array.splice() method
+                // ANSWER: array.splice(index, howmany(items to be removed), item1, ..., itemX);
                 scores.splice(i, 0, newScore);
                 found = true;
                 break;
@@ -158,6 +167,8 @@ class Game {
             scores.push(newScore);
         }
         // what is the purpose of the code below?
+        // ANSWER: As far as I can understand, it is simply limited the number of saved 
+        // games to 10 in the local storage database. Is this for performance reasons?
         if (scores.length > 10) {
             scores.length = 10;
         }
@@ -169,6 +180,9 @@ class Game {
 const game = new Game();
 
 // Understand this function better
+// ANSWER: This function takes an integer number as input, and basically creates
+// a delay in the operation of the game so the user can see the differences in the
+// button sequence
 function delay(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(() => {
