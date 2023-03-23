@@ -1,5 +1,4 @@
 const {MongoClient} = require('mongodb');
-require('dotenv').config({ path: '/etc/environment'});
 
 const userName = process.env.MONGOUSER;
 const password = process.env.MONGOPASSWORD;
